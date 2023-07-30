@@ -1,6 +1,8 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome import ChromeDriverManager
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import message_errors
@@ -9,10 +11,12 @@ import random
 
 
 options = webdriver.ChromeOptions()
-options.add_argument('lang=ukr')
+options.add_argument('lang=ru')
 options.add_argument("start-maximized")
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+#driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+#, options=options)
+driver = webdriver.Chrome(executable_path="c:\chromedriver\chromedriver.exe")
 driver.implicitly_wait(10)
 #driver.maximize_window()
 
@@ -150,7 +154,7 @@ def login_psw_validation_incorrect():
 
 
 
-
+#Проверяем работу поиска по товарам, добавление первого найденного элемента в корзину
 def basket(x):
     search_field = driver.find_element(By.ID, "q")
     search_field.send_keys(x)
@@ -179,19 +183,79 @@ def basket(x):
 
 
 
+#Проверяем наличие всех модулей каталога
+def available_item_from_catalog():
+    superciny = driver.find_element(By.ID, 'out-link-4').text
+    configurator = driver.find_element(By.ID, 'out-link-5').text
+    energy = driver.find_element(By.ID, 'tab-21').text
+    kompyterna_tehnika_komplectyuchi = driver.find_element(By.ID, 'tab-1').text
+    pobytova_tehnica = driver.find_element(By.ID, 'tab-6').text
+    mobilnuy_zviazok = driver.find_element(By.ID, 'tab-5').text
+    portatuvna_tehnika = driver.find_element(By.ID, 'tab-2').text
+    tovary_dliy_geymerov = driver.find_element(By.ID, 'tab-20').text
+    televizory_ta_rozvagy = driver.find_element(By.ID, 'tab-4').text
+    audio = driver.find_element(By.ID, 'tab-22').text
+    foto_i_videotehnika = driver.find_element(By.ID, 'tab-16').text
+    vse_dliy_oficy = driver.find_element(By.ID, 'tab-3').text
+    avto = driver.find_element(By.ID, 'tab-7').text
+    dutyachiy_svit = driver.find_element(By.ID, 'tab-8').text
+    santechnika_ta_remont = driver.find_element(By.ID, 'tab-9').text
+    vse_dliy_domy = driver.find_element(By.ID, 'tab-14').text
+    dacha_sad_ogorod = driver.find_element(By.ID, 'tab-19').text
+    sport_vidpochinok_ta_turizm = driver.find_element(By.ID, 'tab-11').text
+    suveniry_chasy_symki = driver.find_element(By.ID, 'tab-18').text
+    krasota_ta_zdorovie = driver.find_element(By.ID, 'tab-17').text
+    zootovary = driver.find_element(By.ID, 'tab-13').text
+    apple = driver.find_element(By.ID, 'tab-12').text
+    poslygu = driver.find_element(By.ID, 'tab-15').text
+    ychinka = driver.find_element(By.ID, 'out-link-3').text
+
+    catalog = [superciny, configurator, energy, kompyterna_tehnika_komplectyuchi, pobytova_tehnica, mobilnuy_zviazok,
+               portatuvna_tehnika, tovary_dliy_geymerov, televizory_ta_rozvagy, audio, foto_i_videotehnika,
+               vse_dliy_oficy, avto, dutyachiy_svit, santechnika_ta_remont, vse_dliy_domy, dacha_sad_ogorod,
+               sport_vidpochinok_ta_turizm, suveniry_chasy_symki, krasota_ta_zdorovie, zootovary, apple, poslygu, ychinka]
+
+    if driver.find_element(By.XPATH, "//html").get_attribute('lang') == 'ru':
+        catalog_test = message_errors.catalog_ru
+    else:
+        catalog_test = message_errors.catalog_ua
+
+    for item in catalog:
+        if item in catalog_test:
+            print(f'{item} is available in catalog')
+            catalog_test.remove(item)
+        else:
+            print(f"{item} is incorrect")
+
+    print(catalog_test, "catalog test")
 
 
 
-#login_button()
-#login_popup_psw("29852985Kk")
-basket("Samsung")
+
+def available_item_from_catalog_second_variant():
+
+    Catalog_items = driver.find_elements(By.CLASS_NAME, 'tab')
+    catalog = []
+    for i in Catalog_items:
+        if i.get_attribute('text') != None and i.get_attribute('text') != 'Каталог товаров':
+            catalog.append(i.text)
+    print(catalog)
+    if driver.find_element(By.XPATH, "//html").get_attribute('lang') == 'ru':
+        catalog_test = message_errors.catalog_ru
+    else:
+        catalog_test = message_errors.catalog_ua
+
+    for item in catalog:
+        if item in catalog_test:
+            print(f'{item} is available in catalog')
+            catalog_test.remove(item)
+        else:
+            print(f"{item} is incorrect")
+
+    print(catalog_test, "catalog test")
 
 
-
-
-
-
-
+available_item_from_catalog_second_variant()
 
 
 
@@ -248,7 +312,9 @@ basket("Samsung")
 
 
 
-
+#login_button()
+#login_popup_psw("29852985Kk")
+#basket("Samsung")
 
 
 
