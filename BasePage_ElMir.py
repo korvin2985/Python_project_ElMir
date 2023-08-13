@@ -234,31 +234,31 @@ class Items():
 
 
 
-def available_item_from_catalog_second_variant():
+    def available_item_from_catalog_second_variant():
 
-    Catalog_items = driver.find_elements(By.CLASS_NAME, 'tab')
-    catalog = []
-    for i in Catalog_items:
-        if i.get_attribute('text') != None and i.get_attribute('text') != 'Каталог товаров':
-            catalog.append(i.text)
-    print(catalog)
-    if driver.find_element(By.XPATH, "//html").get_attribute('lang') == 'ru':
-        catalog_test = message_errors.catalog_ru
-    else:
-        catalog_test = message_errors.catalog_ua
-
-    for item in catalog:
-        if item in catalog_test:
-            print(f'{item} is available in catalog')
-            catalog_test.remove(item)
+        Catalog_items = driver.find_elements(*Modules.catalog_items_locator)
+        catalog = []
+        for i in Catalog_items:
+            if i.get_attribute('text') != None and i.get_attribute('text') != 'Каталог товаров':
+                catalog.append(i.text)
+        print(catalog)
+        if driver.find_element(By.XPATH, "//html").get_attribute('lang') == 'ru':
+            catalog_test = message_errors.catalog_ru
         else:
-            print(f"{item} is incorrect")
+            catalog_test = message_errors.catalog_ua
 
-    print(catalog_test, "catalog test")
+        for item in catalog:
+            if item in catalog_test:
+                print(f'{item} is available in catalog')
+                catalog_test.remove(item)
+            else:
+                print(f"{item} is incorrect")
+
+        print(catalog_test, "catalog test")
 
 
 
-Items.available_item_from_catalog()
+Items.available_item_from_catalog_second_variant()
 
 
 

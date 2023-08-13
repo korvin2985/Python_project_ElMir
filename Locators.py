@@ -28,3 +28,5 @@ class Modules():
     apple_locator = (By.ID, 'tab-12')
     poslygu_locator = (By.ID, 'tab-15')
     ychinka_locator = (By.ID, 'out-link-3')
+
+    catalog_items_locator = (By.CLASS_NAME, 'tab')
