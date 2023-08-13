@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 import message_errors
 import create_data_list
 import random
-from Locators import Modules
+from Locators import Modules, TheBasket
 
 
 options = webdriver.ChromeOptions()
@@ -154,33 +154,33 @@ def login_psw_validation_incorrect():
         logout_button()
 
 
-
+class AddToBasket():
 #Проверяем работу поиска по товарам, добавление первого найденного элемента в корзину
-def basket(x):
-    search_field = driver.find_element(By.ID, "q")
-    search_field.send_keys(x)
-    time.sleep(2)
-    find_button = driver.find_element(By.ID, "find")
-    find_button.click()
-    time.sleep(2)
-    item_name = driver.find_element(By.CLASS_NAME, "vit-name")
-    text_item = item_name.text
-    time.sleep(1)
-    basket_button = driver.find_element(By.CLASS_NAME, "no-print.ready.btn")
-    basket_button.click()
-    time.sleep(1)
-    create_order = driver.find_element(By.CSS_SELECTOR, "#basket-popup > form > div.b_side > div > div.buttons > a:nth-child(3)")
-    create_order.click()
-    time.sleep(1)
-    item_name_basket = driver.find_elements(By.CLASS_NAME, "item-name")
-    text_list = []
-    for i in item_name_basket:
-        text_list.append(i.get_attribute("text"))
-    if text_item in text_list:
-        print("Test add to the basket is PASSED")
-        print(text_item)
-    else:
-        print("Test add to the basket is FAILED")
+    def basket(x):
+        search_field = driver.find_element(*TheBasket.search_field_locator)
+        search_field.send_keys(x)
+        time.sleep(2)
+        find_button = driver.find_element(*TheBasket.find_button_locator)
+        find_button.click()
+        time.sleep(2)
+        item_name = driver.find_element(*TheBasket.item_name_locator)
+        text_item = item_name.text
+        time.sleep(1)
+        basket_button = driver.find_element(*TheBasket.basket_button_locator)
+        basket_button.click()
+        time.sleep(1)
+        create_order = driver.find_element(*TheBasket.create_order_locator)
+        create_order.click()
+        time.sleep(1)
+        item_name_basket = driver.find_elements(*TheBasket.item_name_basket_locator)
+        text_list = []
+        for i in item_name_basket:
+            text_list.append(i.get_attribute("text"))
+        if text_item in text_list:
+            print("Test add to the basket is PASSED")
+            print(text_item)
+        else:
+            print("Test add to the basket is FAILED")
 
 
 
@@ -258,13 +258,10 @@ class Items():
 
 
 
-Items.available_item_from_catalog_second_variant()
+#Items.available_item_from_catalog_second_variant()
 
 
-
-#available_item_from_catalog_second_variant()
-
-
+AddToBasket.basket("Samsung")
 
 
 

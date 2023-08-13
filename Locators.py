@@ -30,3 +30,14 @@ class Modules():
     ychinka_locator = (By.ID, 'out-link-3')
 
     catalog_items_locator = (By.CLASS_NAME, 'tab')
+
+
+
+#Добавление в корзину
+class TheBasket():
+    search_field_locator = (By.ID, "q")
+    find_button_locator = (By.ID, "find")
+    item_name_locator = (By.CLASS_NAME, "vit-name")
+    basket_button_locator = (By.CLASS_NAME, "no-print.ready.btn")
+    create_order_locator = (By.CSS_SELECTOR, "#basket-popup > form > div.b_side > div > div.buttons > a:nth-child(3)")
+    item_name_basket_locator = (By.CLASS_NAME, "item-name")
