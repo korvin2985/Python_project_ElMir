@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 import message_errors
 import create_data_list
 import random
+from Locators import Modules
 
 
 options = webdriver.ChromeOptions()
@@ -184,50 +185,51 @@ def basket(x):
 
 
 #Проверяем наличие всех модулей каталога
-def available_item_from_catalog():
-    superciny = driver.find_element(By.ID, 'out-link-4').text
-    configurator = driver.find_element(By.ID, 'out-link-5').text
-    energy = driver.find_element(By.ID, 'tab-21').text
-    kompyterna_tehnika_komplectyuchi = driver.find_element(By.ID, 'tab-1').text
-    pobytova_tehnica = driver.find_element(By.ID, 'tab-6').text
-    mobilnuy_zviazok = driver.find_element(By.ID, 'tab-5').text
-    portatuvna_tehnika = driver.find_element(By.ID, 'tab-2').text
-    tovary_dliy_geymerov = driver.find_element(By.ID, 'tab-20').text
-    televizory_ta_rozvagy = driver.find_element(By.ID, 'tab-4').text
-    audio = driver.find_element(By.ID, 'tab-22').text
-    foto_i_videotehnika = driver.find_element(By.ID, 'tab-16').text
-    vse_dliy_oficy = driver.find_element(By.ID, 'tab-3').text
-    avto = driver.find_element(By.ID, 'tab-7').text
-    dutyachiy_svit = driver.find_element(By.ID, 'tab-8').text
-    santechnika_ta_remont = driver.find_element(By.ID, 'tab-9').text
-    vse_dliy_domy = driver.find_element(By.ID, 'tab-14').text
-    dacha_sad_ogorod = driver.find_element(By.ID, 'tab-19').text
-    sport_vidpochinok_ta_turizm = driver.find_element(By.ID, 'tab-11').text
-    suveniry_chasy_symki = driver.find_element(By.ID, 'tab-18').text
-    krasota_ta_zdorovie = driver.find_element(By.ID, 'tab-17').text
-    zootovary = driver.find_element(By.ID, 'tab-13').text
-    apple = driver.find_element(By.ID, 'tab-12').text
-    poslygu = driver.find_element(By.ID, 'tab-15').text
-    ychinka = driver.find_element(By.ID, 'out-link-3').text
+class Items():
+    def available_item_from_catalog():
+        superciny = driver.find_element(*Modules.superciny_locator).text
+        configurator = driver.find_element(*Modules.configurator_locator).text
+        energy = driver.find_element(*Modules.energy_locator).text
+        kompyterna_tehnika_komplectyuchi = driver.find_element(*Modules.kompyterna_tehnika_komplectyuchi_locator).text
+        pobytova_tehnica = driver.find_element(*Modules.pobytova_tehnica_locator).text
+        mobilnuy_zviazok = driver.find_element(*Modules.mobilnuy_zviazok_locator).text
+        portatuvna_tehnika = driver.find_element(*Modules.portatuvna_tehnika_locator).text
+        tovary_dliy_geymerov = driver.find_element(*Modules.tovary_dliy_geymerov_locator).text
+        televizory_ta_rozvagy = driver.find_element(*Modules.televizory_ta_rozvagy_locator).text
+        audio = driver.find_element(*Modules.audio_locator).text
+        foto_i_videotehnika = driver.find_element(*Modules.foto_i_videotehnika_locator).text
+        vse_dliy_oficy = driver.find_element(*Modules.vse_dliy_oficy_locator).text
+        avto = driver.find_element(*Modules.avto_locator).text
+        dutyachiy_svit = driver.find_element(*Modules.dutyachiy_svit_locator).text
+        santechnika_ta_remont = driver.find_element(*Modules.santechnika_ta_remont_locator).text
+        vse_dliy_domy = driver.find_element(*Modules.vse_dliy_domy_locator).text
+        dacha_sad_ogorod = driver.find_element(*Modules.dacha_sad_ogorod_locator).text
+        sport_vidpochinok_ta_turizm = driver.find_element(*Modules.sport_vidpochinok_ta_turizm_locator).text
+        suveniry_chasy_symki = driver.find_element(*Modules.suveniry_chasy_symki_locator).text
+        krasota_ta_zdorovie = driver.find_element(*Modules.krasota_ta_zdorovie_locator).text
+        zootovary = driver.find_element(*Modules.zootovary_locator).text
+        apple = driver.find_element(*Modules.apple_locator).text
+        poslygu = driver.find_element(*Modules.poslygu_locator).text
+        ychinka = driver.find_element(*Modules.ychinka_locator).text
 
-    catalog = [superciny, configurator, energy, kompyterna_tehnika_komplectyuchi, pobytova_tehnica, mobilnuy_zviazok,
-               portatuvna_tehnika, tovary_dliy_geymerov, televizory_ta_rozvagy, audio, foto_i_videotehnika,
-               vse_dliy_oficy, avto, dutyachiy_svit, santechnika_ta_remont, vse_dliy_domy, dacha_sad_ogorod,
-               sport_vidpochinok_ta_turizm, suveniry_chasy_symki, krasota_ta_zdorovie, zootovary, apple, poslygu, ychinka]
+        catalog = [superciny, configurator, energy, kompyterna_tehnika_komplectyuchi, pobytova_tehnica, mobilnuy_zviazok,
+                   portatuvna_tehnika, tovary_dliy_geymerov, televizory_ta_rozvagy, audio, foto_i_videotehnika,
+                   vse_dliy_oficy, avto, dutyachiy_svit, santechnika_ta_remont, vse_dliy_domy, dacha_sad_ogorod,
+                   sport_vidpochinok_ta_turizm, suveniry_chasy_symki, krasota_ta_zdorovie, zootovary, apple, poslygu, ychinka]
 
-    if driver.find_element(By.XPATH, "//html").get_attribute('lang') == 'ru':
-        catalog_test = message_errors.catalog_ru
-    else:
-        catalog_test = message_errors.catalog_ua
-
-    for item in catalog:
-        if item in catalog_test:
-            print(f'{item} is available in catalog')
-            catalog_test.remove(item)
+        if driver.find_element(By.XPATH, "//html").get_attribute('lang') == 'ru':
+            catalog_test = message_errors.catalog_ru
         else:
-            print(f"{item} is incorrect")
+            catalog_test = message_errors.catalog_ua
 
-    print(catalog_test, "catalog test")
+        for item in catalog:
+            if item in catalog_test:
+                print(f'{item} is available in catalog')
+                catalog_test.remove(item)
+            else:
+                print(f"{item} is incorrect")
+
+        print(catalog_test, "catalog test")
 
 
 
@@ -255,7 +257,12 @@ def available_item_from_catalog_second_variant():
     print(catalog_test, "catalog test")
 
 
-available_item_from_catalog_second_variant()
+
+Items.available_item_from_catalog()
+
+
+
+#available_item_from_catalog_second_variant()
 
 
 
