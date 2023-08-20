@@ -1,6 +1,36 @@
 from selenium.webdriver.common.by import By
 
 
+#Регистрация нового аккаунта
+class Registration():
+    button_registration_locator = (By.CLASS_NAME, "lf-a.open-reg")
+    button_enter_locator = (By.ID, "autho")
+    button_registration_input_data_locator = (By.CSS_SELECTOR, "#reg-form > form > button")
+
+    name_error_message_locator = (By.ID, 'rf-err-name')
+    surname_error_message_locator = (By.ID, 'rf-err-surname')
+    email_error_message_locator = (By.ID, 'rf-err-email')
+    phone_error_message_locator = (By.ID, 'rf-err-phone')
+    password_error_message_locator = (By.ID, 'rf-err-password')
+
+    field_name_registration_locator = (By.ID, "rf-name")
+    field_last_name_registration_locator = (By.ID, "rf-surname")
+    field_phone_registration_locator = (By.ID, "rf-phone")
+    field_email_registration_locator = (By.ID, "rf-email")
+    field_psw_registration_locator = (By.ID, "rf-password")
+
+    button_registration_submit_locator = (By.CLASS_NAME, "mw-submit")
+
+
+
+
+
+
+
+
+
+
+
 
 #Модули интернет магазина
 class Modules():

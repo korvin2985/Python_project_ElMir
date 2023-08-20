@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 import message_errors
 import create_data_list
 import random
-from Locators import Modules, TheBasket
+from Locators import Modules, TheBasket, Registration
 
 
 options = webdriver.ChromeOptions()
@@ -24,58 +24,51 @@ driver.implicitly_wait(10)
 driver.get("https://elmir.ua")
 
 
+class FormValidationRegistration():
 #Регистрация - проверка валидации полей
 #Заходит на форму регистрации
-def reg_button():
-    button_enter = driver.find_element(By.ID, "autho")
-    button_enter.click()
-    time.sleep(1)
-    button_registration = driver.find_element(By.CLASS_NAME, "lf-a.open-reg")
-    time.sleep(1)
-    button_registration.click()
-
-
-def registration_account():
-    field_name_registration = driver.find_element(By.ID, "rf-name")
-    field_last_name_registration = driver.find_element(By.ID, "rf-surname")
-    field_phone_registration = driver.find_element(By.ID, "rf-phone")
-    field_email_registration = driver.find_element(By.ID, "rf-email")
-    field_psw_registration = driver.find_element(By.ID, "rf-password")
-    button_registration_submit = driver.find_element(By.CLASS_NAME, "mw-submit")
+    def reg_button():
+        button_enter = driver.find_element(*Registration.button_enter_locator)
+        button_enter.click()
+        time.sleep(1)
+        button_registration = driver.find_element(*Registration.button_registration_locator)
+        time.sleep(1)
+        button_registration.click()
 
 
 #В поле формы Y вводим значение Х, кликаем Зарегистрироваться и стираем Х
-def reg_general_fields(x,y):
-    field_name_registration = driver.find_element(By.ID, y)
-    if x != None:
-        field_name_registration.send_keys(x)
-    time.sleep(1)
-    driver.find_element(By.CSS_SELECTOR, "#reg-form > form > button").click()
-    try:
-        field_name_clear = driver.find_element(By.ID, y)
-        field_name_clear.clear()
-    except:
-        assert True
+    def reg_general_fields(x,y):
+        field_name_registration = driver.find_element(*y)
+        if x != None:
+            field_name_registration.send_keys(x)
+        time.sleep(1)
+        driver.find_element(*Registration.button_registration_input_data_locator).click()
+        try:
+            field_name_clear = driver.find_element(*y)
+            field_name_clear.clear()
+        except:
+            assert True
 
 
 #Проверяем сообщение в попапе при некорректных данных
-def reg_general_validation_incorrect(x,y,z):
-    try:
-        field_incorrect = driver.find_element(By.ID, y)
-        error_message = field_incorrect.text
-        if error_message in x:
-            print(f"Test invalid {z} is PASSED")
-            print(error_message)
-        else:
-            print(f"Test invalid {z} is FAILED")
-            print(error_message)
+    def reg_general_validation_incorrect(x,y,z):
+        try:
+            field_incorrect = driver.find_element(*y)
+            error_message = field_incorrect.text
+            if error_message in x:
+                print(f"Test invalid {z} is PASSED")
+                print(error_message)
+            else:
+                print(f"Test invalid {z} is FAILED")
+                print(error_message)
 
-    except:
-        print("User has been FAILED")
+        except:
+            print("User has been FAILED")
 
 
+#Вход в аккаунт
 def login_button():
-    button_enter = driver.find_element(By.ID, "autho")
+    button_enter = driver.find_element(*Registration.button_enter_locator)
     time.sleep(1)
     button_enter.click()
 
@@ -215,7 +208,8 @@ class Items():
         catalog = [superciny, configurator, energy, kompyterna_tehnika_komplectyuchi, pobytova_tehnica, mobilnuy_zviazok,
                    portatuvna_tehnika, tovary_dliy_geymerov, televizory_ta_rozvagy, audio, foto_i_videotehnika,
                    vse_dliy_oficy, avto, dutyachiy_svit, santechnika_ta_remont, vse_dliy_domy, dacha_sad_ogorod,
-                   sport_vidpochinok_ta_turizm, suveniry_chasy_symki, krasota_ta_zdorovie, zootovary, apple, poslygu, ychinka]
+                   sport_vidpochinok_ta_turizm, suveniry_chasy_symki, krasota_ta_zdorovie, zootovary, apple, poslygu,
+                   ychinka]
 
         if driver.find_element(By.XPATH, "//html").get_attribute('lang') == 'ru':
             catalog_test = message_errors.catalog_ru
@@ -257,45 +251,45 @@ class Items():
         print(catalog_test, "catalog test")
 
 
-
+#Проверяем наличие всех модулей
 #Items.available_item_from_catalog_second_variant()
 
 
-AddToBasket.basket("Samsung")
+#Проверяем функцию поиска-добавления в корзину
+#AddToBasket.basket("Samsung")
 
 
+#Заходим на форму регистрации и запускаем валидацию полей (данные из эксель файла)
+FormValidationRegistration.reg_button()
+for from_list in create_data_list.name_reg:
+    print(from_list)
+    FormValidationRegistration.reg_general_fields(from_list, Registration.field_name_registration_locator)
+    time.sleep(2)
+    FormValidationRegistration.reg_general_validation_incorrect(message_errors.name_error_messages, Registration.name_error_message_locator, "Name")
 
+for from_list in create_data_list.last_name_reg:
+    print(from_list)
+    FormValidationRegistration.reg_general_fields(from_list, Registration.field_last_name_registration_locator)
+    time.sleep(2)
+    FormValidationRegistration.reg_general_validation_incorrect(message_errors.last_name_error_messages, Registration.surname_error_message_locator, "Last Name")
 
-#reg_button()    #Заходим на форму регистрации и запускаем валидацию полей (данные из эксель файла)
-#for from_list in create_data_list.name_reg:
-#    print(from_list)
-#    reg_general_fields(from_list, "rf-name")
-#    time.sleep(2)
-#    reg_general_validation_incorrect(message_errors.name_error_messages, 'rf-err-name', "Name")
+for from_list in create_data_list.email_reg:
+    print(from_list)
+    FormValidationRegistration.reg_general_fields(from_list, Registration.field_email_registration_locator)
+    time.sleep(2)
+    FormValidationRegistration.reg_general_validation_incorrect(message_errors.email_error_messages, Registration.email_error_message_locator, "Email")
 
-#for from_list in create_data_list.last_name_reg:
-#    print(from_list)
-#    reg_general_fields(from_list, "rf-surname")
-#    time.sleep(2)
-#    reg_general_validation_incorrect(message_errors.last_name_error_messages, 'rf-err-surname', "Last Name")
+for from_list in create_data_list.phone_reg:
+    print(from_list)
+    FormValidationRegistration.reg_general_fields(from_list, Registration.field_phone_registration_locator)
+    time.sleep(3)
+    FormValidationRegistration.reg_general_validation_incorrect(message_errors.phone_error_messages, Registration.phone_error_message_locator, "Phone")
 
-#for from_list in create_data_list.email_reg:
-#    print(from_list)
-#    reg_general_fields(from_list, "rf-email")
-#    time.sleep(2)
-#    reg_general_validation_incorrect(message_errors.email_error_messages, 'rf-err-email', "Email")
-
-#for from_list in create_data_list.phone_reg:
-#    print(from_list)
-#    reg_general_fields(from_list, "rf-phone")
-#    time.sleep(3)
-#    reg_general_validation_incorrect(message_errors.phone_error_messages, 'rf-err-phone', "Phone")
-
-#for from_list in create_data_list.psw_reg:
-#    print(from_list)
-#    reg_general_fields(from_list, "rf-password")
-#    time.sleep(3)
-#    reg_general_validation_incorrect(message_errors.psw_error_messages, 'rf-err-password', "Password")
+for from_list in create_data_list.psw_reg:
+    print(from_list)
+    FormValidationRegistration.reg_general_fields(from_list, Registration.field_psw_registration_locator)
+    time.sleep(3)
+    FormValidationRegistration.reg_general_validation_incorrect(message_errors.psw_error_messages, Registration.password_error_message_locator, "Password")
 
 #time.sleep(1)
 #driver.find_element(By.CLASS_NAME, "mw-close.close-dialog").click()
