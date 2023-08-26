@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 import message_errors
 import create_data_list
 import random
-from Locators import Modules, TheBasket, Registration
+from Locators import Modules, TheBasket, Registration, FormLogin
 
 
 options = webdriver.ChromeOptions()
@@ -24,8 +24,8 @@ driver.implicitly_wait(10)
 driver.get("https://elmir.ua")
 
 
+#Форма регистрации - проверка валидации полей
 class FormValidationRegistration():
-#Регистрация - проверка валидации полей
 #Заходит на форму регистрации
     def reg_button():
         button_enter = driver.find_element(*Registration.button_enter_locator)
@@ -66,89 +66,91 @@ class FormValidationRegistration():
             print("User has been FAILED")
 
 
+#Форма логина - проверка валидации полей
+class FormValidationLogin():
 #Вход в аккаунт
-def login_button():
-    button_enter = driver.find_element(*Registration.button_enter_locator)
-    time.sleep(1)
-    button_enter.click()
+    def login_button():
+        button_enter = driver.find_element(*Registration.button_enter_locator)
+        time.sleep(1)
+        button_enter.click()
 
 
-def login_popup_email(x):
-    field_phone_email = driver.find_element(By.ID, "lf-login")
-    field_psw = driver.find_element(By.ID, "lf-password")
-    field_phone_email.send_keys(x)
-    time.sleep(1)
-    field_psw.send_keys("29852985Kk")
-    time.sleep(2)
-    button_submit = driver.find_elements(By.CLASS_NAME, "mw-submit")
-    for i in button_submit:
-       if i.text == 'Войти' or i.text == 'Увійти':
-            i.click()
-    time.sleep(2)
-    try:
-        field_phone_email_clear = driver.find_element(By.ID, "lf-login")
-        field_phone_email_clear.clear()
-    except:
-        assert True
+    def login_popup_email(x):
+        field_phone_email = driver.find_element(*FormLogin.field_phone_email_locator)
+        field_psw = driver.find_element(*FormLogin.field_psw_locator)
+        field_phone_email.send_keys(x)
+        time.sleep(1)
+        field_psw.send_keys("29852985Kk")
+        time.sleep(2)
+        button_submit = driver.find_elements(*Registration.button_registration_submit_locator)
+        for i in button_submit:
+            if i.text == 'Войти' or i.text == 'Увійти':
+                i.click()
+        time.sleep(2)
+        try:
+            field_phone_email_clear = driver.find_element(*FormLogin.field_phone_email_locator)
+            field_phone_email_clear.clear()
+        except:
+            assert True
 
 
-def login_popup_psw(x):
-    field_phone_email = driver.find_element(By.ID, "lf-login")
-    field_psw = driver.find_element(By.ID, "lf-password")
-    field_phone_email.send_keys("claudiajenrpm365@gmail.com")
-    field_psw.send_keys(x)
-    time.sleep(2)
-    button_submit = driver.find_elements(By.CLASS_NAME, "mw-submit")
-    for i in button_submit:
-        if i.text == 'Войти' or i.text == 'Увійти':
-            i.click()
-    time.sleep(2)
-    try:
-        field_phone_email_clear = driver.find_element(By.ID, "lf-login")
-        field_phone_email_clear.clear()
-        field_psw_clear = driver.find_element(By.ID, "lf-password")
-        field_psw_clear.clear()
-    except:
-        assert True
+    def login_popup_psw(x):
+        field_phone_email = driver.find_element(*FormLogin.field_phone_email_locator)
+        field_psw = driver.find_element(*FormLogin.field_psw_locator)
+        field_phone_email.send_keys("claudiajenrpm365@gmail.com")
+        field_psw.send_keys(x)
+        time.sleep(2)
+        button_submit = driver.find_elements(*Registration.button_registration_submit_locator)
+        for i in button_submit:
+            if i.text == 'Войти' or i.text == 'Увійти':
+                i.click()
+        time.sleep(2)
+        try:
+            field_phone_email_clear = driver.find_element(*FormLogin.field_phone_email_locator)
+            field_phone_email_clear.clear()
+            field_psw_clear = driver.find_element(*FormLogin.field_psw_locator)
+            field_psw_clear.clear()
+        except:
+            assert True
 
 
-def logout_button():
-    actions = webdriver.ActionChains(driver)
-    hover = driver.find_element(By.CLASS_NAME, "user-name")
-    actions.click(hover).perform()
-    time.sleep(2)
-    driver.find_element(By.CSS_SELECTOR, "#autho > ul > li > ul > li:nth-child(9) > form > button").click()
-    time.sleep(2)
-    login_button()
-    time.sleep(1)
+    def logout_button():
+        actions = webdriver.ActionChains(driver)
+        hover = driver.find_element(*FormLogin.hover_locator)
+        actions.click(hover).perform()
+        time.sleep(2)
+        driver.find_element(*FormLogin.logout_button_from_dropdown_locator).click()
+        time.sleep(2)
+        FormValidationLogin.login_button()
+        time.sleep(1)
 
 
-def login_email_validation_incorrect():
-    try:
-        field_incorrect_phone_email = driver.find_element(By.CLASS_NAME, "mw_error_text")
-        if field_incorrect_phone_email.text == "Укажите телефон или email" or "Вкажіть телефон або email":
-            print("Test invalid email/phone is PASSED")
-        else:
-            print("Test invalid email/phone is FAILED")
-    except:
-        print("User has been FAILED")
-        logout_button()
+    def login_email_validation_incorrect():
+        try:
+            field_incorrect_phone_email = driver.find_element(*FormLogin.field_incorrect_phone_email_locator)
+            if field_incorrect_phone_email.text == "Укажите телефон или email" or "Вкажіть телефон або email":
+                print("Test invalid email/phone is PASSED")
+            else:
+                print("Test invalid email/phone is FAILED")
+        except:
+            print("User has been FAILED")
+            FormValidationLogin.logout_button()
 
 
-def login_psw_validation_incorrect():
-    try:
-        field_incorrect_psw = driver.find_element(By.CLASS_NAME, "mw_error_text")
-        if field_incorrect_psw.text == "Неверные данные входа" or "Невірні дані входу":
-            print("Test invalid psw is PASSED")
-        else:
-            print("Test invalid psw is FAILED")
-    except:
-        print("User has been FAILED")
-        logout_button()
+    def login_psw_validation_incorrect():
+        try:
+            field_incorrect_psw = driver.find_element(*FormLogin.field_incorrect_psw_locator)
+            if field_incorrect_psw.text == "Неверные данные входа" or "Невірні дані входу":
+                print("Test invalid psw is PASSED")
+            else:
+                print("Test invalid psw is FAILED")
+        except:
+            print("User has been FAILED")
+            FormValidationLogin.logout_button()
 
 
-class AddToBasket():
 #Проверяем работу поиска по товарам, добавление первого найденного элемента в корзину
+class AddToBasket():
     def basket(x):
         search_field = driver.find_element(*TheBasket.search_field_locator)
         search_field.send_keys(x)
@@ -226,8 +228,6 @@ class Items():
         print(catalog_test, "catalog test")
 
 
-
-
     def available_item_from_catalog_second_variant():
 
         Catalog_items = driver.find_elements(*Modules.catalog_items_locator)
@@ -251,6 +251,57 @@ class Items():
         print(catalog_test, "catalog test")
 
 
+
+
+
+
+#Заходим на форму регистрации и запускаем валидацию полей (данные из эксель файла)
+# FormValidationRegistration.reg_button()
+# for from_list in create_data_list.name_reg:
+#     print(from_list)
+#     FormValidationRegistration.reg_general_fields(from_list, Registration.field_name_registration_locator)
+#     time.sleep(2)
+#     FormValidationRegistration.reg_general_validation_incorrect(message_errors.name_error_messages, Registration.name_error_message_locator, "Name")
+#
+# for from_list in create_data_list.last_name_reg:
+#     print(from_list)
+#     FormValidationRegistration.reg_general_fields(from_list, Registration.field_last_name_registration_locator)
+#     time.sleep(2)
+#     FormValidationRegistration.reg_general_validation_incorrect(message_errors.last_name_error_messages, Registration.surname_error_message_locator, "Last Name")
+#
+# for from_list in create_data_list.email_reg:
+#     print(from_list)
+#     FormValidationRegistration.reg_general_fields(from_list, Registration.field_email_registration_locator)
+#     time.sleep(2)
+#     FormValidationRegistration.reg_general_validation_incorrect(message_errors.email_error_messages, Registration.email_error_message_locator, "Email")
+#
+# for from_list in create_data_list.phone_reg:
+#     print(from_list)
+#     FormValidationRegistration.reg_general_fields(from_list, Registration.field_phone_registration_locator)
+#     time.sleep(3)
+#     FormValidationRegistration.reg_general_validation_incorrect(message_errors.phone_error_messages, Registration.phone_error_message_locator, "Phone")
+#
+# for from_list in create_data_list.psw_reg:
+#     print(from_list)
+#     FormValidationRegistration.reg_general_fields(from_list, Registration.field_psw_registration_locator)
+#     time.sleep(3)
+#     FormValidationRegistration.reg_general_validation_incorrect(message_errors.psw_error_messages, Registration.password_error_message_locator, "Password")
+
+
+#Валидация полей логина
+FormValidationLogin.login_button()
+
+for log1 in create_data_list.log_incorrect_email:
+    FormValidationLogin.login_popup_email(log1)
+    FormValidationLogin.login_email_validation_incorrect()
+    time.sleep(2)
+
+for log1 in create_data_list.log_incorrect_psw:
+    FormValidationLogin.login_popup_psw(log1)
+    FormValidationLogin.login_psw_validation_incorrect()
+    time.sleep(2)
+
+
 #Проверяем наличие всех модулей
 #Items.available_item_from_catalog_second_variant()
 
@@ -259,60 +310,28 @@ class Items():
 #AddToBasket.basket("Samsung")
 
 
-#Заходим на форму регистрации и запускаем валидацию полей (данные из эксель файла)
-FormValidationRegistration.reg_button()
-for from_list in create_data_list.name_reg:
-    print(from_list)
-    FormValidationRegistration.reg_general_fields(from_list, Registration.field_name_registration_locator)
-    time.sleep(2)
-    FormValidationRegistration.reg_general_validation_incorrect(message_errors.name_error_messages, Registration.name_error_message_locator, "Name")
 
-for from_list in create_data_list.last_name_reg:
-    print(from_list)
-    FormValidationRegistration.reg_general_fields(from_list, Registration.field_last_name_registration_locator)
-    time.sleep(2)
-    FormValidationRegistration.reg_general_validation_incorrect(message_errors.last_name_error_messages, Registration.surname_error_message_locator, "Last Name")
 
-for from_list in create_data_list.email_reg:
-    print(from_list)
-    FormValidationRegistration.reg_general_fields(from_list, Registration.field_email_registration_locator)
-    time.sleep(2)
-    FormValidationRegistration.reg_general_validation_incorrect(message_errors.email_error_messages, Registration.email_error_message_locator, "Email")
 
-for from_list in create_data_list.phone_reg:
-    print(from_list)
-    FormValidationRegistration.reg_general_fields(from_list, Registration.field_phone_registration_locator)
-    time.sleep(3)
-    FormValidationRegistration.reg_general_validation_incorrect(message_errors.phone_error_messages, Registration.phone_error_message_locator, "Phone")
 
-for from_list in create_data_list.psw_reg:
-    print(from_list)
-    FormValidationRegistration.reg_general_fields(from_list, Registration.field_psw_registration_locator)
-    time.sleep(3)
-    FormValidationRegistration.reg_general_validation_incorrect(message_errors.psw_error_messages, Registration.password_error_message_locator, "Password")
+
+
+
+
 
 #time.sleep(1)
 #driver.find_element(By.CLASS_NAME, "mw-close.close-dialog").click()
 
 
-#login_button()
 
-
-#for log1 in create_data_list.log_incorrect_email:
-#    login_popup_email(log1)
-#    login_email_validation_incorrect()
-#    time.sleep(2)
-
-#for log1 in create_data_list.log_incorrect_psw:
-#    login_popup_psw(log1)
-#    login_psw_validation_incorrect()
-#    time.sleep(2)
 
 
 
 #login_button()
 #login_popup_psw("29852985Kk")
-#basket("Samsung")
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-#Регистрация нового аккаунта
+#Форма регистрации
 class Registration():
     button_registration_locator = (By.CLASS_NAME, "lf-a.open-reg")
     button_enter_locator = (By.ID, "autho")
@@ -22,14 +22,14 @@ class Registration():
     button_registration_submit_locator = (By.CLASS_NAME, "mw-submit")
 
 
-
-
-
-
-
-
-
-
+#Форма логина
+class FormLogin():
+    field_phone_email_locator = (By.ID, "lf-login")
+    field_psw_locator = (By.ID, "lf-password")
+    hover_locator = (By.CLASS_NAME, "user-name")
+    logout_button_from_dropdown_locator = (By.CSS_SELECTOR, "#autho > ul > li > ul > li:nth-child(9) > form > button")
+    field_incorrect_psw_locator = (By.CLASS_NAME, "mw_error_text")
+    field_incorrect_phone_email_locator = (By.CLASS_NAME, "mw_error_text")
 
 
 #Модули интернет магазина
@@ -60,7 +60,6 @@ class Modules():
     ychinka_locator = (By.ID, 'out-link-3')
 
     catalog_items_locator = (By.CLASS_NAME, 'tab')
-
 
 
 #Добавление в корзину
