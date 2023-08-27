@@ -1,14 +1,15 @@
-import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 #from selenium.webdriver.chrome import ChromeDriverManager
 from webdriver_manager.chrome import ChromeDriverManager
+import time
+import random
 from selenium.webdriver.common.by import By
 import message_errors
 import create_data_list
-import random
 from Locators import Modules, TheBasket, Registration, FormLogin
+from Open_email_ukr_net import open_email
 
 
 options = webdriver.ChromeOptions()
@@ -251,6 +252,13 @@ class Items():
         print(catalog_test, "catalog test")
 
 
+class RecoveryPassword():
+
+
+
+
+
+
 
 
 
@@ -311,11 +319,7 @@ for log1 in create_data_list.log_incorrect_psw:
 
 
 
-
-
-
-
-
+driver.quit()
 
 
 
@@ -335,5 +339,5 @@ for log1 in create_data_list.log_incorrect_psw:
 
 
 
-driver.quit()
+
 

@@ -70,3 +70,17 @@ class TheBasket():
     basket_button_locator = (By.CLASS_NAME, "no-print.ready.btn")
     create_order_locator = (By.CSS_SELECTOR, "#basket-popup > form > div.b_side > div > div.buttons > a:nth-child(3)")
     item_name_basket_locator = (By.CLASS_NAME, "item-name")
+
+
+#Восстановление пароля
+class RecoveryPsw():
+    recovery_button_locator = (By.CLASS_NAME, "lf-a")
+    recovery_field_locator = (By.ID, "source")
+    recovery_button_recovery_locator = (By.CLASS_NAME, "button.big-btn")
+    recovery_new_psw_field_locator = (By.ID, "password")
+    recovery_code_field_locator = (By.ID, "sended")
+    recovery_button_new_psw_locator = (By.CSS_SELECTOR, "#recovery > div.second_step > button")
+    recovery_text_locator = (By.CSS_SELECTOR, "#content-container > div.elmir-msg.elmir-notice")
+
+
+
