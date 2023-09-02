@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="848c3d5f-cb8f-4a39-90e6-392060ea0380" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Open_email_ukr_net.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasePage_ElMir.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasePage_ElMir.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/Locators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Open_email_ukr_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/Open_email_ukr_net.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

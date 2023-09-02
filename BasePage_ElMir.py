@@ -7,6 +7,7 @@ import time
 import random
 from selenium.webdriver.common.by import By
 import message_errors
+import email
 import create_data_list
 from Locators import Modules, TheBasket, Registration, FormLogin
 from Open_email_ukr_net import open_email
@@ -252,10 +253,11 @@ class Items():
         print(catalog_test, "catalog test")
 
 
-class RecoveryPassword():
+#class RecoveryPassword():
 
 
-
+refer = open_email()
+print(refer)
 
 
 
@@ -297,17 +299,17 @@ class RecoveryPassword():
 
 
 #Валидация полей логина
-FormValidationLogin.login_button()
+#FormValidationLogin.login_button()
 
-for log1 in create_data_list.log_incorrect_email:
-    FormValidationLogin.login_popup_email(log1)
-    FormValidationLogin.login_email_validation_incorrect()
-    time.sleep(2)
-
-for log1 in create_data_list.log_incorrect_psw:
-    FormValidationLogin.login_popup_psw(log1)
-    FormValidationLogin.login_psw_validation_incorrect()
-    time.sleep(2)
+# for log1 in create_data_list.log_incorrect_email:
+#     FormValidationLogin.login_popup_email(log1)
+#     FormValidationLogin.login_email_validation_incorrect()
+#     time.sleep(2)
+#
+# for log1 in create_data_list.log_incorrect_psw:
+#     FormValidationLogin.login_popup_psw(log1)
+#     FormValidationLogin.login_psw_validation_incorrect()
+#     time.sleep(2)
 
 
 #Проверяем наличие всех модулей
@@ -320,6 +322,13 @@ for log1 in create_data_list.log_incorrect_psw:
 
 
 driver.quit()
+
+
+
+
+
+
+
 
 
 
