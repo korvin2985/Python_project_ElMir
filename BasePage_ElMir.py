@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 import message_errors
 import email
 import create_data_list
-from Locators import Modules, TheBasket, Registration, FormLogin
+from Locators import Modules, TheBasket, Registration, FormLogin, RecoveryPsw
 from Open_email_ukr_net import open_email
 
 
@@ -253,16 +253,42 @@ class Items():
         print(catalog_test, "catalog test")
 
 
-#class RecoveryPassword():
+class RecoveryPassword():
+    def RecoveryPSWfunction():
+        button_enter = driver.find_element(*Registration.button_enter_locator)
+        button_enter.click()
+        time.sleep(1)
+        recovery_button = driver.find_element(*RecoveryPsw.recovery_button_locator)
+        recovery_button.click()
+        time.sleep(1)
+        recovery_field = driver.find_element(*RecoveryPsw.recovery_field_locator)
+        recovery_field.send_keys("oleg.test.pyt@ukr.net")
+        recovery_button_recovery = driver.find_element(*RecoveryPsw.recovery_button_recovery_locator)
+        recovery_button_recovery.click()
+        time.sleep(7)
+        recovery_new_psw_field = driver.find_element(*RecoveryPsw.recovery_new_psw_field_locator)
+        recovery_new_psw_field.send_keys("29852985Kk")
+        recovery_code_field = driver.find_element(*RecoveryPsw.recovery_code_field_locator)
+        refer = open_email()
+        time.sleep(1)
+        recovery_code_field.send_keys(refer)
+        time.sleep(1)
+        recovery_button_new_psw = driver.find_element(*RecoveryPsw.recovery_button_new_psw_locator)
+        recovery_button_new_psw.click()
+        time.sleep(1)
+        try:
+            recovery_text = driver.find_element(*RecoveryPsw.recovery_text_locator)
+            if recovery_text.text in message_errors.changed_psw:
+                print("PSW has been successfully changed   PASSED")
+            else:
+                print("PSW is not changed   FAILED")
+                print(recovery_text.text)
+        except:
+            print("Change PSW has been  FAILED")
 
 
-refer = open_email()
-print(refer)
-
-
-
-
-
+#Проверка функции восстановления пароля
+RecoveryPassword.RecoveryPSWfunction()
 
 
 #Заходим на форму регистрации и запускаем валидацию полей (данные из эксель файла)
@@ -329,11 +355,6 @@ driver.quit()
 
 
 
-
-
-
-#time.sleep(1)
-#driver.find_element(By.CLASS_NAME, "mw-close.close-dialog").click()
 
 
 

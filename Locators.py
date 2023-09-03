@@ -80,7 +80,7 @@ class RecoveryPsw():
     recovery_new_psw_field_locator = (By.ID, "password")
     recovery_code_field_locator = (By.ID, "sended")
     recovery_button_new_psw_locator = (By.CSS_SELECTOR, "#recovery > div.second_step > button")
-    recovery_text_locator = (By.CSS_SELECTOR, "#content-container > div.elmir-msg.elmir-notice")
+    recovery_text_locator = (By.CLASS_NAME, "elmir-msg.elmir-notice")
 
 
 
