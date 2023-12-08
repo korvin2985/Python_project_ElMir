@@ -8,7 +8,7 @@ def open_email():
     imap_server = "imap.ukr.net"
     imap = imaplib.IMAP4_SSL(imap_server)
 
-    password = "loXRbbAtCxmgSRzv"
+    password = "yd9c3J1eoEsVwzWK"
     imap.login("oleg.test.pyt@ukr.net", password)
 
     imap.select("INBOX")
